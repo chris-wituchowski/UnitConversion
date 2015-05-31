@@ -4,36 +4,129 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivityFragment"
-    android:orientation="vertical">
+    tools:context=".MainActivityFragment">
 
-    <RadioGroup
-        android:id="@+id/inputRadioGroup"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/psi"
+        <RadioGroup
+            android:id="@+id/inputRadioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="psi" />
+            android:layout_gravity="left">
 
-        <RadioButton
-            android:id="@+id/bar"
+            <RadioButton
+                android:id="@+id/inPsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="psi" />
+
+            <RadioButton
+                android:id="@+id/inBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bar" />
+
+            <RadioButton
+                android:id="@+id/inMPa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MPa" />
+
+            <RadioButton
+                android:id="@+id/inKPa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kPa" />
+
+            <RadioButton
+                android:id="@+id/inTorr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mmHg/torr" />
+
+            <RadioButton
+                android:id="@+id/inAtm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="atm" />
+
+            <RadioButton
+                android:id="@+id/inAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="at" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+        <RadioGroup
+            android:id="@+id/outputRadioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bar" />
-    </RadioGroup>
+            android:layout_gravity="right">
+
+            <RadioButton
+                android:id="@+id/outPsi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="psi" />
+
+            <RadioButton
+                android:id="@+id/outBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bar" />
+
+            <RadioButton
+                android:id="@+id/outMPa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MPa" />
+
+            <RadioButton
+                android:id="@+id/outKPa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kPa" />
+
+            <RadioButton
+                android:id="@+id/outTorr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="mmHg/torr" />
+
+            <RadioButton
+                android:id="@+id/outAtm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="atm" />
+
+            <RadioButton
+                android:id="@+id/outAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="at" />
+
+        </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#ffff242d"
+        android:background="#ADD8E6"
         android:orientation="horizontal">
 
         <EditText
@@ -42,7 +135,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="numberDecimal"
+            android:hint="input value"/>
 
         <EditText
             android:id="@+id/outputNumber"
@@ -50,9 +144,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number" />
+            android:inputType="numberDecimal"
+            android:hint="converted value"/>
     </LinearLayout>
-
-
-
 </LinearLayout>
