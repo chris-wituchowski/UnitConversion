@@ -3,16 +3,22 @@ package com.example.chris.unitconversion;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.app.ActionBar;
 
+import com.example.chris.unitconversion.data.DrawerItemCustomAdapter;
+import com.example.chris.unitconversion.data.ObjectDrawerItem;
 import com.example.chris.unitconversion.data.UnitData;
 
 import java.util.ArrayList;
@@ -29,6 +35,9 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     private RadioGroup mInputRadioGroup;
     private RadioGroup mOutputRadioGroup;
     private List<UnitData> mUnitList;
+    private String[] mNavigationDrawerItemTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     public UnitConversionFragment() {
     }
@@ -37,13 +46,13 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UnitData psi = new UnitData("psi", 1, 2);
-        UnitData bar = new UnitData("bar", 6, 4);
-        UnitData mpa = new UnitData("MPa", 2, 3);
-        UnitData kpa = new UnitData("kPa", 2, 4);
-        UnitData mmhg = new UnitData("mmHg/torr", 9, 8);
-        UnitData atm = new UnitData("atm", 7, 6);
-        UnitData at = new UnitData("at", 5, 4);
+        UnitData psi = new UnitData("psi", 6894.75729, 0.00014503);
+        UnitData bar = new UnitData("bar", 100000.0, 0.00001);
+        UnitData mpa = new UnitData("MPa", 1000000, 0.000001);
+        UnitData kpa = new UnitData("kPa", 1000, 0.001);
+        UnitData mmhg = new UnitData("mmHg/torr", 133.3224, 0.0075006);
+        UnitData atm = new UnitData("atm", 101325.0, 0.0000098692);
+        UnitData at = new UnitData("at", 98066.5, 0.000010197);
 
         mUnitList = new ArrayList<>();
         mUnitList.add(psi);
@@ -53,6 +62,7 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
         mUnitList.add(mmhg);
         mUnitList.add(atm);
         mUnitList.add(at);
+
 
 
     }
@@ -68,30 +78,43 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText inputEditText = (EditText) view.findViewById(R.id.inputNumber);
-        inputEditText.addTextChangedListener(this);
+        mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) view.findViewById(R.id.left_drawer);
 
-        EditText outputEditText = (EditText) view.findViewById(R.id.outputNumber);
+            ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[3];
 
-        RadioGroup inputRadioGroup = (RadioGroup) view.findViewById(R.id.inputRadioGroup);
-        RadioGroup outputRadioGroup = (RadioGroup) view.findViewById(R.id.outputRadioGroup);
+            drawerItem[0] = new ObjectDrawerItem("Pressure");
+            drawerItem[1] = new ObjectDrawerItem("Length");
+            drawerItem[2] = new ObjectDrawerItem("Area");
 
-        inputRadioGroup.setOnCheckedChangeListener(this);
-        outputRadioGroup.setOnCheckedChangeListener(this);
+            DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this.getActivity(), R.layout.listview_item_row, drawerItem);
+            mDrawerList.setAdapter(adapter);
 
-        mInputEditText = inputEditText;
-        mOutputEditText = outputEditText;
-        mInputRadioGroup = inputRadioGroup;
-        mOutputRadioGroup = outputRadioGroup;
+            EditText inputEditText = (EditText) view.findViewById(R.id.inputNumber);
+            inputEditText.addTextChangedListener(this);
 
-        Context context = getActivity();
+            EditText outputEditText = (EditText) view.findViewById(R.id.outputNumber);
 
-        for (int i = 0; i < mUnitList.size(); i++) {
-            UnitData unitData = mUnitList.get(i);
+            RadioGroup inputRadioGroup = (RadioGroup) view.findViewById(R.id.inputRadioGroup);
+            RadioGroup outputRadioGroup = (RadioGroup) view.findViewById(R.id.outputRadioGroup);
 
-            RadioButton inButton = new RadioButton(context);
-            inButton.setText(unitData.getName());
-            inButton.setId(i);
+            inputRadioGroup.setOnCheckedChangeListener(this);
+            outputRadioGroup.setOnCheckedChangeListener(this);
+
+            mInputEditText = inputEditText;
+            mOutputEditText = outputEditText;
+            mInputRadioGroup = inputRadioGroup;
+            mOutputRadioGroup = outputRadioGroup;
+
+            Context context = getActivity();
+
+            for (int i = 0; i < mUnitList.size(); i++) {
+                UnitData unitData = mUnitList.get(i);
+
+                RadioButton inButton = new RadioButton(context);
+                inButton.setText(unitData.getName());
+                inButton.setId(i);
             inputRadioGroup.addView(inButton);
 
             RadioButton outButton = new RadioButton(context);
@@ -100,6 +123,9 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
             outputRadioGroup.addView(outButton);
 
         }
+
+
+
 
     }
 

@@ -7,6 +7,7 @@ public class UnitData {
     private String mName;
     private double mToConversionFactor;
     private double mFromConversionFactor;
+    private double mAdditionFactor;
 
     public String getName() {
         return mName;
