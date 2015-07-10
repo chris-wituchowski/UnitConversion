@@ -3,23 +3,18 @@ package com.example.chris.unitconversion;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.app.ActionBar;
 
-import com.example.chris.unitconversion.data.DrawerItemCustomAdapter;
-import com.example.chris.unitconversion.data.ObjectDrawerItem;
 import com.example.chris.unitconversion.data.UnitData;
+import com.example.chris.unitconversion.data.UnitType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +25,23 @@ import java.util.List;
  */
 public class UnitConversionFragment extends Fragment implements TextWatcher, RadioGroup.OnCheckedChangeListener {
 
+    private static final String ARG_UNIT_TYPE = "ARG_UNIT_TYPE";
+    private UnitType mUnitType;
+
     private EditText mInputEditText;
     private EditText mOutputEditText;
     private RadioGroup mInputRadioGroup;
     private RadioGroup mOutputRadioGroup;
     private List<UnitData> mUnitList;
-    private String[] mNavigationDrawerItemTitles;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+
+    public static UnitConversionFragment newInstance(final UnitType unitType)
+    {
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_UNIT_TYPE, unitType);
+        UnitConversionFragment fragment = new UnitConversionFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     public UnitConversionFragment() {
     }
@@ -46,25 +50,9 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        UnitData psi = new UnitData("psi", 6894.75729, 0.00014503);
-        UnitData bar = new UnitData("bar", 100000.0, 0.00001);
-        UnitData mpa = new UnitData("MPa", 1000000, 0.000001);
-        UnitData kpa = new UnitData("kPa", 1000, 0.001);
-        UnitData mmhg = new UnitData("mmHg/torr", 133.3224, 0.0075006);
-        UnitData atm = new UnitData("atm", 101325.0, 0.0000098692);
-        UnitData at = new UnitData("at", 98066.5, 0.000010197);
-
-        mUnitList = new ArrayList<>();
-        mUnitList.add(psi);
-        mUnitList.add(bar);
-        mUnitList.add(mpa);
-        mUnitList.add(kpa);
-        mUnitList.add(mmhg);
-        mUnitList.add(atm);
-        mUnitList.add(at);
-
-
-
+        Bundle arguments =  getArguments();
+        mUnitType = (UnitType)arguments.getSerializable(ARG_UNIT_TYPE);
+        mUnitList = mUnitType.getUnitData();
     }
 
     @Override
@@ -77,19 +65,6 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
-        mDrawerLayout = (DrawerLayout) view.findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) view.findViewById(R.id.left_drawer);
-
-            ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[3];
-
-            drawerItem[0] = new ObjectDrawerItem("Pressure");
-            drawerItem[1] = new ObjectDrawerItem("Length");
-            drawerItem[2] = new ObjectDrawerItem("Area");
-
-            DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this.getActivity(), R.layout.listview_item_row, drawerItem);
-            mDrawerList.setAdapter(adapter);
 
             EditText inputEditText = (EditText) view.findViewById(R.id.inputNumber);
             inputEditText.addTextChangedListener(this);

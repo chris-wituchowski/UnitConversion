@@ -4,28 +4,28 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.chris.unitconversion.R;
 
+import java.util.List;
+
 /**
  * Created by Chris on 6/24/2015.
  */
-public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
+public class DrawerItemCustomAdapter extends ArrayAdapter<UnitType> {
 
     Context mContext;
-    int layoutResourceId;
-    ObjectDrawerItem data[] = null;
+    int mLayoutResourceId;
+    List<UnitType> mUnitTypeList = null;
 
-    public DrawerItemCustomAdapter(Context mContext, int layoutResourceId, ObjectDrawerItem[] data) {
+    public DrawerItemCustomAdapter(Context mContext, int layoutResourceId, List<UnitType> data) {
 
         super(mContext, layoutResourceId, data);
-        this.layoutResourceId = layoutResourceId;
+        this.mLayoutResourceId = layoutResourceId;
         this.mContext = mContext;
-        this.data = data;
+        this.mUnitTypeList = data;
     }
 
     @Override
@@ -34,13 +34,15 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
         View listItem = convertView;
 
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-        listItem = inflater.inflate(layoutResourceId, parent, false);
+        listItem = inflater.inflate(mLayoutResourceId, parent, false);
 
         TextView textViewName = (TextView) listItem.findViewById(R.id.textViewName);
 
-        ObjectDrawerItem folder = data[position];
+        UnitType folder = mUnitTypeList.get(position);
 
-        textViewName.setText(folder.name);
+        String unitName = folder.getUnitName();
+
+        textViewName.setText(unitName);
 
         return listItem;
     }
