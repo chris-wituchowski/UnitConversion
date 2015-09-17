@@ -243,7 +243,9 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
                 Double outputNumber = initialConvertedNumber * conversionFactor;
                 */
 
-                outputString = outputNumber.toString();
+
+
+                outputString = String.format("%.2f", outputNumber);
             }
 
         }

@@ -68,7 +68,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:hint="input value"/>
+            android:hint="input value"
+            android:elegantTextHeight="false" />
 
         <EditText
             android:id="@+id/outputNumber"

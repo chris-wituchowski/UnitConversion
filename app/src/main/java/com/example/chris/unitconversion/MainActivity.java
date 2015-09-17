@@ -3,9 +3,9 @@ package com.example.chris.unitconversion;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ListView mDrawerList;
     private List<UnitType> mDrawerItems;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar mToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +38,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mNavigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mToolBar = (Toolbar) findViewById(R.id.action_bar);
+
+        mToolBar.setNavigationIcon(R.drawable.ic_drawer);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+        getSupportActionBar().setIcon(R.drawable.ic_drawer);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
+                mToolBar,
                 R.string.drawer_open,
                 R.string.drawer_closed
-        );
+        ) {
+            public void onDrawerClosed(View view) {
+
+            }
+            public void onDrawerOpened(View view){
+
+            }
+        };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
         mDrawerItems = new ArrayList<>();
 
@@ -56,6 +69,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mDrawerItems.add(UnitType.Area);
         mDrawerItems.add(UnitType.Energy);
         mDrawerItems.add(UnitType.Length);
+        mDrawerItems.add(UnitType.Angle);
+        mDrawerItems.add(UnitType.Acceleration);
+        mDrawerItems.add(UnitType.Density);
+        mDrawerItems.add(UnitType.DigitalInformation);
+        mDrawerItems.add(UnitType.Force);
+        mDrawerItems.add(UnitType.Power);
+        mDrawerItems.add(UnitType.Speed);
+        mDrawerItems.add(UnitType.Temperature);
+        mDrawerItems.add(UnitType.Torque);
+        mDrawerItems.add(UnitType.Time);
+        mDrawerItems.add(UnitType.Volume);
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, mDrawerItems);
         mDrawerList.setAdapter(adapter);
@@ -87,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
