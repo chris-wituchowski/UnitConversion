@@ -2,7 +2,7 @@
     <string name="app_name">Unit Conversion</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="change_units">Change Unit Type</string>
+    <string name="change_units">Change Unit Precision</string>
     <string-array name="navigation_drawer_items_array">
         <item>Pressure</item>
         <item>Length/Distance</item>
