@@ -68,7 +68,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:hint="input value"
+            android:hint="@string/input_hint"
+            android:maxLength="18"
             android:elegantTextHeight="false" />
 
         <EditText
@@ -78,6 +79,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:hint="converted value"/>
+            android:maxLength="18"
+            android:hint="@string/output_hint"/>
     </LinearLayout>
+
 </LinearLayout>

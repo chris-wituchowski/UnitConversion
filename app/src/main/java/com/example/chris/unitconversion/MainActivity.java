@@ -3,6 +3,7 @@ package com.example.chris.unitconversion;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -106,39 +107,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .commitAllowingStateLoss();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
     /*AdapterView.OnItemClickListener*/
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d("changed", "" + position);
         UnitType currentUnitSelected = mDrawerItems.get(position);
         setUnitConversionFragment(currentUnitSelected);
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 }

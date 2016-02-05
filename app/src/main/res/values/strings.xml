@@ -11,4 +11,7 @@
     </string-array>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_closed">Drawer Closed</string>
+    <string name="input_hint">Input Value</string>
+    <string name="output_hint">Converted Value</string>
+    <string name="change_precision">Precision</string>
 </resources>
