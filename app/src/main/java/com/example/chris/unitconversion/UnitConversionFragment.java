@@ -146,10 +146,9 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 Log.d("AlrtDiag", "OK");
-
                 mPrecisionString = precisionText.getText().toString();
-
                 Log.d("Precision", mPrecisionString);
+                convertUnits();
             }
         });
 
