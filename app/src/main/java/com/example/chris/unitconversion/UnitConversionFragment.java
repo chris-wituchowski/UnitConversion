@@ -142,6 +142,8 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(precisionText);
 
+        precisionText.setSelection(mPrecisionString.length());
+
         // set dialog message
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -229,7 +231,7 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
 
             if (inputRadioButtonId == outputRadioButtonId)
             {
-                outputString = inputString;
+                outputString = String.format(precisionFactor, inputNumber);
             }
             else
             {
