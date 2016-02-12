@@ -2,6 +2,7 @@ package com.example.chris.unitconversion;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -35,6 +36,7 @@ import static java.security.AccessController.getContext;
 public class UnitConversionFragment extends Fragment implements TextWatcher, RadioGroup.OnCheckedChangeListener {
 
     private static final String ARG_UNIT_TYPE = "ARG_UNIT_TYPE";
+    private static final String BUNDLEKEY_PRECISION = "BUNDLEKEY_PRECISION";
     private UnitType mUnitType;
 
     private EditText mInputEditText;
@@ -42,7 +44,7 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     private RadioGroup mInputRadioGroup;
     private RadioGroup mOutputRadioGroup;
     private List<UnitData> mUnitList;
-    private String mPrecisionString = "2";
+    private int mPrecisionInt = 2;
 
 
     public static UnitConversionFragment newInstance(final UnitType unitType)
@@ -65,6 +67,11 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
         Bundle arguments =  getArguments();
         mUnitType = (UnitType)arguments.getSerializable(ARG_UNIT_TYPE);
         mUnitList = mUnitType.getUnitData();
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(
+                "com.example.app", Context.MODE_PRIVATE);
+
+        mPrecisionInt = prefs.getInt(BUNDLEKEY_PRECISION, 2);
     }
 
     @Override
@@ -128,6 +135,7 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        String precisionString = "" + mPrecisionInt;
         Context context = getActivity();
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setTitle("Precision");
@@ -135,22 +143,35 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
 
         final EditText precisionText = new EditText(context);
 
-        precisionText.setText(mPrecisionString);
+        precisionText.setText(precisionString);
 
         precisionText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(precisionText);
 
-        precisionText.setSelection(mPrecisionString.length());
+        precisionText.setSelection(precisionString.length());
 
         // set dialog message
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                String rawPrecisionText;
                 Log.d("AlrtDiag", "OK");
-                mPrecisionString = precisionText.getText().toString();
-                Log.d("Precision", mPrecisionString);
-                convertUnits();
+                rawPrecisionText = precisionText.getText().toString();
+                Log.d("Precision", rawPrecisionText);
+
+                try{
+                    mPrecisionInt = Integer.parseInt(rawPrecisionText);
+                    convertUnits();
+                } catch(NumberFormatException nfe) {
+
+                }
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(
+                        "com.example.app", Context.MODE_PRIVATE);
+
+                prefs.edit().putInt(BUNDLEKEY_PRECISION, mPrecisionInt).commit();
+
             }
         });
 
@@ -227,7 +248,7 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
             double inputNumber = Double.parseDouble(inputString);
             double conversionFactor = 0.0;
             double initialConvertedNumber;
-            String precisionFactor = "%." + mPrecisionString + "f";
+            String precisionFactor = "%." + mPrecisionInt + "f";
 
             if (inputRadioButtonId == outputRadioButtonId)
             {

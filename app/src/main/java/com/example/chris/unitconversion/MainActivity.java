@@ -1,6 +1,7 @@
 package com.example.chris.unitconversion;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.chris.unitconversion.data.DrawerItemCustomAdapter;
+import com.example.chris.unitconversion.data.UnitData;
 import com.example.chris.unitconversion.data.UnitType;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private List<UnitType> mDrawerItems;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolBar;
+    private static final String PREFSKEY_STARTUPTYPE = "PREFSKEY_STARTUPTYPE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,20 +76,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mDrawerItems = new ArrayList<>();
 
-        mDrawerItems.add(UnitType.Pressure);
-        mDrawerItems.add(UnitType.Area);
-        mDrawerItems.add(UnitType.Energy);
-        mDrawerItems.add(UnitType.Length);
-        mDrawerItems.add(UnitType.Angle);
         mDrawerItems.add(UnitType.Acceleration);
-        mDrawerItems.add(UnitType.Density);
+        mDrawerItems.add(UnitType.Angle);
+        mDrawerItems.add(UnitType.Area);
         mDrawerItems.add(UnitType.DigitalInformation);
+        mDrawerItems.add(UnitType.Density);
+        mDrawerItems.add(UnitType.Energy);
         mDrawerItems.add(UnitType.Force);
+        mDrawerItems.add(UnitType.Length);
         mDrawerItems.add(UnitType.Power);
+        mDrawerItems.add(UnitType.Pressure);
         mDrawerItems.add(UnitType.Speed);
         mDrawerItems.add(UnitType.Temperature);
-        mDrawerItems.add(UnitType.Torque);
         mDrawerItems.add(UnitType.Time);
+        mDrawerItems.add(UnitType.Torque);
         mDrawerItems.add(UnitType.Volume);
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, mDrawerItems);
@@ -94,7 +97,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mDrawerList.setOnItemClickListener(this);
 
-        setUnitConversionFragment(UnitType.Pressure);
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.app", Context.MODE_PRIVATE);
+
+        int startupUnitsInt = prefs.getInt(PREFSKEY_STARTUPTYPE, 2);
+        UnitType startingUnitType = (UnitType.Temperature);
+
+        Log.d("startUnit", "" + startupUnitsInt);
+
+        if(startupUnitsInt >= 0 && startupUnitsInt < mDrawerItems.size()) {
+            startingUnitType = mDrawerItems.get(startupUnitsInt);
+            Log.d("loadPos", "" + startupUnitsInt);
+        }
+
+        setUnitConversionFragment(startingUnitType);
 
     }
 
@@ -105,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frame, fragment)
                 .commitAllowingStateLoss();
+        this.setTitle(unitType.getUnitName());
     }
 
     /*AdapterView.OnItemClickListener*/
@@ -114,5 +131,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         UnitType currentUnitSelected = mDrawerItems.get(position);
         setUnitConversionFragment(currentUnitSelected);
         mDrawerLayout.closeDrawer(GravityCompat.START);
+
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.app", Context.MODE_PRIVATE);
+
+        prefs.edit().putInt(PREFSKEY_STARTUPTYPE, position).commit();
+        Log.d("savePos", "" + position);
     }
 }

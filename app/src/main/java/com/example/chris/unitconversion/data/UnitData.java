@@ -9,6 +9,7 @@ public class UnitData {
     private double mFromConversionFactor;
     private double mToAdditionFactor;
     private double mFromAdditionFactor;
+    private String mPrecisionString;
 
     public UnitData(String data, double toConversionFactor, double fromConversionFactor, double toAdditionFactor, double fromAdditionFactor) {
         mName = data;
@@ -16,7 +17,6 @@ public class UnitData {
         mFromConversionFactor = fromConversionFactor;
         mToAdditionFactor = toAdditionFactor;
         mFromAdditionFactor = fromAdditionFactor;
-
     }
 
     public String getName() {
