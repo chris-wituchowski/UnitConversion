@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mToolBar = (Toolbar) findViewById(R.id.action_bar);
 
-        mToolBar.setNavigationIcon(R.drawable.ic_drawer);
+        mToolBar.setNavigationIcon(R.drawable.ic_action_name);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
