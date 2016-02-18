@@ -1,12 +1,20 @@
 package com.example.chris.unitconversion;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -14,9 +22,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.chris.unitconversion.data.UnitData;
+import com.example.chris.unitconversion.data.UnitType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 
 /**
@@ -24,11 +35,26 @@ import java.util.List;
  */
 public class UnitConversionFragment extends Fragment implements TextWatcher, RadioGroup.OnCheckedChangeListener {
 
+    private static final String ARG_UNIT_TYPE = "ARG_UNIT_TYPE";
+    private static final String BUNDLEKEY_PRECISION = "BUNDLEKEY_PRECISION";
+    private UnitType mUnitType;
+
     private EditText mInputEditText;
     private EditText mOutputEditText;
     private RadioGroup mInputRadioGroup;
     private RadioGroup mOutputRadioGroup;
     private List<UnitData> mUnitList;
+    private int mPrecisionInt = 2;
+
+
+    public static UnitConversionFragment newInstance(final UnitType unitType)
+    {
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(ARG_UNIT_TYPE, unitType);
+        UnitConversionFragment fragment = new UnitConversionFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
 
     public UnitConversionFragment() {
     }
@@ -36,25 +62,16 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
-        UnitData psi = new UnitData("psi", 1, 2);
-        UnitData bar = new UnitData("bar", 6, 4);
-        UnitData mpa = new UnitData("MPa", 2, 3);
-        UnitData kpa = new UnitData("kPa", 2, 4);
-        UnitData mmhg = new UnitData("mmHg/torr", 9, 8);
-        UnitData atm = new UnitData("atm", 7, 6);
-        UnitData at = new UnitData("at", 5, 4);
+        Bundle arguments =  getArguments();
+        mUnitType = (UnitType)arguments.getSerializable(ARG_UNIT_TYPE);
+        mUnitList = mUnitType.getUnitData();
 
-        mUnitList = new ArrayList<>();
-        mUnitList.add(psi);
-        mUnitList.add(bar);
-        mUnitList.add(mpa);
-        mUnitList.add(kpa);
-        mUnitList.add(mmhg);
-        mUnitList.add(atm);
-        mUnitList.add(at);
+        SharedPreferences prefs = getActivity().getSharedPreferences(
+                "com.example.app", Context.MODE_PRIVATE);
 
-
+        mPrecisionInt = prefs.getInt(BUNDLEKEY_PRECISION, 2);
     }
 
     @Override
@@ -68,30 +85,30 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText inputEditText = (EditText) view.findViewById(R.id.inputNumber);
-        inputEditText.addTextChangedListener(this);
+            EditText inputEditText = (EditText) view.findViewById(R.id.inputNumber);
+            inputEditText.addTextChangedListener(this);
 
-        EditText outputEditText = (EditText) view.findViewById(R.id.outputNumber);
+            EditText outputEditText = (EditText) view.findViewById(R.id.outputNumber);
 
-        RadioGroup inputRadioGroup = (RadioGroup) view.findViewById(R.id.inputRadioGroup);
-        RadioGroup outputRadioGroup = (RadioGroup) view.findViewById(R.id.outputRadioGroup);
+            RadioGroup inputRadioGroup = (RadioGroup) view.findViewById(R.id.inputRadioGroup);
+            RadioGroup outputRadioGroup = (RadioGroup) view.findViewById(R.id.outputRadioGroup);
 
-        inputRadioGroup.setOnCheckedChangeListener(this);
-        outputRadioGroup.setOnCheckedChangeListener(this);
+            inputRadioGroup.setOnCheckedChangeListener(this);
+            outputRadioGroup.setOnCheckedChangeListener(this);
 
-        mInputEditText = inputEditText;
-        mOutputEditText = outputEditText;
-        mInputRadioGroup = inputRadioGroup;
-        mOutputRadioGroup = outputRadioGroup;
+            mInputEditText = inputEditText;
+            mOutputEditText = outputEditText;
+            mInputRadioGroup = inputRadioGroup;
+            mOutputRadioGroup = outputRadioGroup;
 
-        Context context = getActivity();
+            Context context = getActivity();
 
-        for (int i = 0; i < mUnitList.size(); i++) {
-            UnitData unitData = mUnitList.get(i);
+            for (int i = 0; i < mUnitList.size(); i++) {
+                UnitData unitData = mUnitList.get(i);
 
-            RadioButton inButton = new RadioButton(context);
-            inButton.setText(unitData.getName());
-            inButton.setId(i);
+                RadioButton inButton = new RadioButton(context);
+                inButton.setText(unitData.getName());
+                inButton.setId(i);
             inputRadioGroup.addView(inButton);
 
             RadioButton outButton = new RadioButton(context);
@@ -103,6 +120,73 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        inflater.inflate(R.menu.menu_main, menu);
+        menu.add(Menu.NONE, Menu.FIRST, 101, "Precision");
+        // super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        String precisionString = "" + mPrecisionInt;
+        Context context = getActivity();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setTitle("Precision");
+        alertDialogBuilder.setMessage("Set Precision in Number of Digits Past the Decimal.");
+
+        final EditText precisionText = new EditText(context);
+
+        precisionText.setText(precisionString);
+
+        precisionText.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(precisionText);
+
+        precisionText.setSelection(precisionString.length());
+
+        // set dialog message
+        alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                String rawPrecisionText;
+                Log.d("AlrtDiag", "OK");
+                rawPrecisionText = precisionText.getText().toString();
+                Log.d("Precision", rawPrecisionText);
+
+                try{
+                    mPrecisionInt = Integer.parseInt(rawPrecisionText);
+                    convertUnits();
+                } catch(NumberFormatException nfe) {
+
+                }
+
+                SharedPreferences prefs = getActivity().getSharedPreferences(
+                        "com.example.app", Context.MODE_PRIVATE);
+
+                prefs.edit().putInt(BUNDLEKEY_PRECISION, mPrecisionInt).commit();
+
+            }
+        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // show it
+
+        //noinspection SimplifiableIfStatement
+        if (id == Menu.FIRST) {
+            Log.d("actMenu", "change");
+            alertDialog.show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         Log.d("RadioGroup", "changed");
@@ -116,8 +200,8 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+    public void onTextChanged(CharSequence s, int
+            start, int before, int count) {
     }
 
     @Override
@@ -161,88 +245,20 @@ public class UnitConversionFragment extends Fragment implements TextWatcher, Rad
         //convert to double, need try/catch in case input EditText is not a number
         String outputString;
         try {
-            Double inputNumber = Double.parseDouble(inputString);
+            double inputNumber = Double.parseDouble(inputString);
             double conversionFactor = 0.0;
             double initialConvertedNumber;
+            String precisionFactor = "%." + mPrecisionInt + "f";
 
             if (inputRadioButtonId == outputRadioButtonId)
             {
-                outputString = inputString;
+                outputString = String.format(precisionFactor, inputNumber);
             }
             else
             {
                 initialConvertedNumber = inData.toConversionFactor(inputNumber);
                 Double outputNumber = outData.fromConversionFactor(initialConvertedNumber);
-
-                /*
-                switch (inputRadioButtonId) {
-                    case R.id.inPsi:
-                        Log.d("Input", "psi");
-                        conversionFactor = 6894.75729;
-                        break;
-                    case R.id.inBar:
-                        Log.d("Input", "bar");
-                        conversionFactor = 100000.0;
-                        break;
-                    case R.id.inAt:
-                        Log.d("Input", "at");
-                        conversionFactor = 98066.5;
-                        break;
-                    case R.id.inAtm:
-                        Log.d("Input", "atm");
-                        conversionFactor = 101325.0;
-                        break;
-                    case R.id.inKPa:
-                        Log.d("Input", "kpa");
-                        conversionFactor = 1000;
-                        break;
-                    case R.id.inMPa:
-                        Log.d("Input", "mpa");
-                        conversionFactor = 1000000;
-                        break;
-                    case R.id.inTorr:
-                        Log.d("Input", "torr");
-                        conversionFactor = 133.3224;
-                        break;
-                }
-
-                initialConvertedNumber = inputNumber * conversionFactor;
-
-                switch (outputRadioButtonId) {
-                    case R.id.outPsi:
-                        Log.d("Output", "psi");
-                        conversionFactor = 0.00014503;
-                        break;
-                    case R.id.outBar:
-                        Log.d("Output", "bar");
-                        conversionFactor = 0.00001;
-                        break;
-                    case R.id.outAt:
-                        Log.d("Output", "at");
-                        conversionFactor = 0.000010197;
-                        break;
-                    case R.id.outAtm:
-                        Log.d("Output", "atm");
-                        conversionFactor = 0.0000098692;
-                        break;
-                    case R.id.outKPa:
-                        Log.d("Output", "kpa");
-                        conversionFactor = 0.001;
-                        break;
-                    case R.id.outMPa:
-                        Log.d("Output", "mpa");
-                        conversionFactor = 0.000001;
-                        break;
-                    case R.id.outTorr:
-                        Log.d("Output", "torr");
-                        conversionFactor = 0.0075006;
-                        break;
-                }
-
-                Double outputNumber = initialConvertedNumber * conversionFactor;
-                */
-
-                outputString = outputNumber.toString();
+                outputString = String.format(precisionFactor, outputNumber);
             }
 
         }
