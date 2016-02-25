@@ -84,9 +84,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mDrawerItems.add(UnitType.Energy);
         mDrawerItems.add(UnitType.Force);
         mDrawerItems.add(UnitType.Length);
+        mDrawerItems.add(UnitType.Mass);
         mDrawerItems.add(UnitType.Power);
         mDrawerItems.add(UnitType.Pressure);
         mDrawerItems.add(UnitType.Speed);
+        mDrawerItems.add(UnitType.UnitPrefixes);
         mDrawerItems.add(UnitType.Temperature);
         mDrawerItems.add(UnitType.Time);
         mDrawerItems.add(UnitType.Torque);
