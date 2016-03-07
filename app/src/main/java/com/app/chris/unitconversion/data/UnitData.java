@@ -1,4 +1,4 @@
-package com.example.chris.unitconversion.data;
+package com.app.chris.unitconversion.data;
 
 /**
  * Created by chris on 6/14/2015.

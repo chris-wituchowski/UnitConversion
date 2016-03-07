@@ -1,8 +1,7 @@
-package com.example.chris.unitconversion.data;
+package com.app.chris.unitconversion.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.math.*;
 
 /**
  * Created by Chris on 7/5/2015.
@@ -37,15 +36,15 @@ public enum UnitType {
             }),
     Area("Area",
             new UnitData[]{
-                    new UnitData("millimeter^2", 0.000001, 1000000.0, 0.0, 0.0),
-                    new UnitData("centimeter^2", 0.0001, 10000.0, 0.0, 0.0),
-                    new UnitData("meter^2", 1.0, 1.0, 0.0, 0.0),
-                    new UnitData("kilometer^2", 1000000.0, 1.0e-6, 0.0, 0.0),
+                    new UnitData("millimeter²", 0.000001, 1000000.0, 0.0, 0.0),
+                    new UnitData("centimeter²", 0.0001, 10000.0, 0.0, 0.0),
+                    new UnitData("meter²", 1.0, 1.0, 0.0, 0.0),
+                    new UnitData("kilometer²", 1000000.0, 1.0e-6, 0.0, 0.0),
                     new UnitData("hectare", 10000.0, 1.0e-4, 0.0, 0.0),
-                    new UnitData("foot^2", Math.pow(0.3048, 2.0), (1.0/Math.pow(0.3048, 2.0)), 0.0, 0.0),
-                    new UnitData("inch^2", Math.pow(0.0254, 2.0), (1.0/Math.pow(0.0254, 2.0)), 0.0, 0.0),
-                    new UnitData("yard^2", Math.pow(0.9144, 2.0), (1.0/Math.pow(0.9144, 2.0)), 0.0, 0.0),
-                    new UnitData("mile^2", Math.pow(1609.344, 2.0), (1.0/Math.pow(1609.344, 2.0)), 0.0, 0.0),
+                    new UnitData("foot²", Math.pow(0.3048, 2.0), (1.0/Math.pow(0.3048, 2.0)), 0.0, 0.0),
+                    new UnitData("inch²", Math.pow(0.0254, 2.0), (1.0/Math.pow(0.0254, 2.0)), 0.0, 0.0),
+                    new UnitData("yard²", Math.pow(0.9144, 2.0), (1.0/Math.pow(0.9144, 2.0)), 0.0, 0.0),
+                    new UnitData("mile²", Math.pow(1609.344, 2.0), (1.0/Math.pow(1609.344, 2.0)), 0.0, 0.0),
                     new UnitData("acre", (43560.0*Math.pow(0.3048, 2.0)), (1.0/(43560.0*Math.pow(0.3048, 2.0))), 0.0, 0.0),
             }),
     Speed("Speed",
@@ -72,20 +71,20 @@ public enum UnitType {
             }),
     Volume("Volume",
             new UnitData[]{
-                    new UnitData("kilometer^3", 1.0e9, 1.0e-9, 0.0, 0.0),
-                    new UnitData("meter^3", 1.0, 1.0, 0.0, 0.0),
-                    new UnitData("centimeter^3 - mL", 1.0e-6, 1.0e6, 0.0, 0.0),
-                    new UnitData("millimeter^3", 1.0e-9, 1.0e9, 0.0, 0.0),
+                    new UnitData("kilometer³", 1.0e9, 1.0e-9, 0.0, 0.0),
+                    new UnitData("meter³", 1.0, 1.0, 0.0, 0.0),
+                    new UnitData("centimeter³ - mL", 1.0e-6, 1.0e6, 0.0, 0.0),
+                    new UnitData("millimeter³", 1.0e-9, 1.0e9, 0.0, 0.0),
                     new UnitData("Liter", 0.001, 1.0e3, 0.0, 0.0),
                     new UnitData("Gallon", Math.pow(0.0254, 3.0)*231, 1/(Math.pow(0.0254, 3.0)*231), 0.0, 0.0),
                     new UnitData("Quart", ((Math.pow(0.0254, 3.0)*231)/4), 1/((Math.pow(0.0254, 3.0)*231)/4), 0.0, 0.0),
                     new UnitData("Pint", ((Math.pow(0.0254, 3.0)*231)/8), 1/((Math.pow(0.0254, 3.0)*231)/8), 0.0, 0.0),
                     new UnitData("Cup", ((Math.pow(0.0254, 3.0)*231)/16), 1/((Math.pow(0.0254, 3.0)*231)/16), 0.0, 0.0),
                     new UnitData("Fluid Oz", ((Math.pow(0.0254, 3.0)*231)/128), 1/((Math.pow(0.0254, 3.0)*231)/128), 0.0, 0.0),
-                    new UnitData("Yard^3", Math.pow(0.9144, 3.0), 1/Math.pow(0.9144, 3.0), 0.0, 0.0),
-                    new UnitData("Foot^3", Math.pow(0.3048, 3.0), 1/Math.pow(0.3048, 3.0), 0.0, 0.0),
-                    new UnitData("Inch^3", Math.pow(0.0254, 3.0), 1/Math.pow(0.0254, 3.0), 0.0, 0.0),
-                    new UnitData("Miles^3", Math.pow(1609.344, 3.0), 1/Math.pow(1609.344, 3.0), 0.0, 0.0),
+                    new UnitData("Yard³", Math.pow(0.9144, 3.0), 1/Math.pow(0.9144, 3.0), 0.0, 0.0),
+                    new UnitData("Foot³", Math.pow(0.3048, 3.0), 1/Math.pow(0.3048, 3.0), 0.0, 0.0),
+                    new UnitData("Inch³", Math.pow(0.0254, 3.0), 1/Math.pow(0.0254, 3.0), 0.0, 0.0),
+                    new UnitData("Miles³", Math.pow(1609.344, 3.0), 1/Math.pow(1609.344, 3.0), 0.0, 0.0),
             }),
     Pressure("Pressure",
             new UnitData[]{
@@ -154,22 +153,22 @@ public enum UnitType {
 
     Acceleration("Acceleration",
             new UnitData[]{
-                    new UnitData("meter/sec^2", 1.0, 1.0, 0.0, 0.0),
-                    new UnitData("foot/sec^2", 0.3048, 1.0/0.3048, 0.0, 0.0),
+                    new UnitData("meter/sec²", 1.0, 1.0, 0.0, 0.0),
+                    new UnitData("foot/sec²", 0.3048, 1.0/0.3048, 0.0, 0.0),
                     new UnitData("g", 9.80665, 1.0/9.80665, 0.0, 0.0),
-                    new UnitData("centimeter/sec^2", 0.01, 100.0, 0.0, 0.0),
-                    new UnitData("millimeter/sec^2", 0.001, 1000.0, 0.0, 0.0),
+                    new UnitData("centimeter/sec²", 0.01, 100.0, 0.0, 0.0),
+                    new UnitData("millimeter/sec²", 0.001, 1000.0, 0.0, 0.0),
             }),
     Density("Density",
             new UnitData[]{
-                    new UnitData("kilogram/meter^3", 1.0, 1.0, 0.0, 0.0),
+                    new UnitData("kilogram/meter³", 1.0, 1.0, 0.0, 0.0),
                     new UnitData("gram/Liter", 1.0, 1.0, 0.0, 0.0),
-                    new UnitData("gram/meter^3", 0.001, 1000.0, 0.0, 0.0),
-                    new UnitData("gram/centimeter^3", 1000.0, 0.001, 0.0, 0.0),
-                    new UnitData("milligram/meter^3", 0.000001, 1000000.0, 0.0, 0.0),
+                    new UnitData("gram/meter³", 0.001, 1000.0, 0.0, 0.0),
+                    new UnitData("gram/centimeter³", 1000.0, 0.001, 0.0, 0.0),
+                    new UnitData("milligram/meter³", 0.000001, 1000000.0, 0.0, 0.0),
                     new UnitData("ounce/gallon", 0.028349523125/(Math.pow(0.0254, 3.0)*231), 1.0/(0.028349523125/(Math.pow(0.0254, 3.0)*231)), 0.0, 0.0),
-                    new UnitData("pound/foot^3", 0.45359237/Math.pow(0.3048, 3.0), 1.0/(0.45359237/Math.pow(0.3048, 3.0)), 0.0, 0.0),
-                    new UnitData("pound/inch^3", 0.45359237/Math.pow(0.0254, 3.0), 1.0/(0.45359237/Math.pow(0.0254, 3.0)), 0.0, 0.0),
+                    new UnitData("pound/foot³", 0.45359237/Math.pow(0.3048, 3.0), 1.0/(0.45359237/Math.pow(0.3048, 3.0)), 0.0, 0.0),
+                    new UnitData("pound/inch³", 0.45359237/Math.pow(0.0254, 3.0), 1.0/(0.45359237/Math.pow(0.0254, 3.0)), 0.0, 0.0),
             }),
     DigitalInformation("Bits/Bytes",
             new UnitData[]{
@@ -196,6 +195,7 @@ public enum UnitType {
                     new UnitData("kilo", 1.0e3, 1.0e-3, 0.0, 0.0),
                     new UnitData("hecto", 1.0e2, 1.0e-2, 0.0, 0.0),
                     new UnitData("deci", 1.0e1, 1.0e-1, 0.0, 0.0),
+                    new UnitData("no prefix", 1.0, 1.0, 0.0, 0.0),
                     new UnitData("centi", 1.0e-2, 1.0e2, 0.0, 0.0),
                     new UnitData("milli", 1.0e-3, 1.0e3, 0.0, 0.0),
                     new UnitData("micro", 1.0e-6, 1.0e6, 0.0, 0.0),

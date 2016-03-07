@@ -1,4 +1,4 @@
-package com.example.chris.unitconversion;
+package com.app.chris.unitconversion;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,17 +10,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.chris.unitconversion.data.DrawerItemCustomAdapter;
-import com.example.chris.unitconversion.data.UnitData;
-import com.example.chris.unitconversion.data.UnitType;
+import com.app.chris.unitconversion.data.DrawerItemCustomAdapter;
+import com.app.chris.unitconversion.data.UnitType;
 
 import java.util.ArrayList;
 import java.util.List;
