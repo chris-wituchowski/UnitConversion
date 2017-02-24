@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.example.chris.unitconversion"
+        applicationId "com.app.chris.unitconversion"
         minSdkVersion 11
         targetSdkVersion 22
         versionCode 1

@@ -1,4 +1,4 @@
-package com.example.chris.unitconversion;
+package com.app.chris.unitconversion;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.example.chris.unitconversion;
+package com.app.chris.unitconversion;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,13 +20,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.example.chris.unitconversion.data.UnitData;
-import com.example.chris.unitconversion.data.UnitType;
+import com.app.chris.unitconversion.data.UnitData;
+import com.app.chris.unitconversion.data.UnitType;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 
 /**

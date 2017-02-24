@@ -1,4 +1,4 @@
-package com.example.chris.unitconversion.data;
+package com.app.chris.unitconversion.data;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.chris.unitconversion.R;
+import com.app.chris.unitconversion.R;
 
 import java.util.List;
 
